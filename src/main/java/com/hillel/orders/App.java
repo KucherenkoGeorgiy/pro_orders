@@ -27,8 +27,9 @@ public class App
         System.out.println(orderService.getListOfAllOrders());
         System.out.println();
         System.out.println(orderService.getAllDetailedOrdersFromDB());
+        System.out.println();
         System.out.println("the last part");
-        System.out.println(orderService.getDetailedOrderByNumber(30));
+        System.out.println(orderService.getDetailedOrderByNumber(1));
 
 
     }
