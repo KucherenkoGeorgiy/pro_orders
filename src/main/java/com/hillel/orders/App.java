@@ -1,14 +1,9 @@
 package com.hillel.orders;
 
-import com.hillel.orders.connection.ConnectionProvider;
-import com.hillel.orders.service.OrderService;
+import com.hillel.orders.service.OrderServiceForEditing;
+import com.hillel.orders.service.OrderServiceForReading;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Hello world!
@@ -16,21 +11,39 @@ import java.util.List;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) throws SQLException {
         System.out.println( "Hello World!" );
 
-        OrderService orderService = new OrderService();
+        OrderServiceForReading orderServiceForReading = new OrderServiceForReading();
+        OrderServiceForEditing orderServiceForEditing = new OrderServiceForEditing();
+//
+//        System.out.println(orderServiceForReading.getAllProductsFromDB());
+//        System.out.println();
+//        System.out.println(orderServiceForReading.getListOfAllOrders());
+//        System.out.println();
+//        System.out.println(orderServiceForReading.getAllDetailedOrdersFromDB());
+//        System.out.println();
+//        System.out.println("the last part");
+//        System.out.println(orderServiceForReading.getDetailedOrderByNumber(2));
+        System.out.println(orderServiceForReading.getDetailedOrderByOrderId(1));
+        System.out.println("=======================================================================");
+//        System.out.println(orderServiceForReading.getOrderById(1));
+        System.out.println(orderServiceForReading.getByTotMaxAndQuantityOfDifGoods(100, 2));
+        System.out.println("=======================================================================");
 
-        System.out.println(orderService.getAllProductsFromDB());
-        System.out.println();
-        System.out.println(orderService.getListOfAllOrders());
-        System.out.println();
-        System.out.println(orderService.getAllDetailedOrdersFromDB());
-        System.out.println();
-        System.out.println("the last part");
-        System.out.println(orderService.getDetailedOrderByNumber(1));
+        System.out.println(orderServiceForReading.getNonDetOrdersThatContainTheProduct( 2));
 
+        System.out.println("=======================================================================");
+        System.out.println("Don't contain product_id=2");
+        System.out.println("=======================================================================");
+        System.out.println(orderServiceForReading.getNonDetOrdersThatDoNotContainTheProductAndContainCurDate( 2));
+        System.out.println("=======================================================================");
+        System.out.println("now printing all today's records");
+        System.out.println("=======================================================================");
 
+//        System.out.println(orderServiceForEditing.getAllRecordsFromCurDate());
+
+        orderServiceForEditing.addNewOrderWithCurDate();
+        System.out.println("everything is OK");
     }
 }
