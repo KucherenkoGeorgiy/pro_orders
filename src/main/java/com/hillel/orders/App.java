@@ -36,12 +36,12 @@ public class App
         System.out.println(orderServiceForReading.getByTotMaxAndQuantityOfDifGoods(100, 2));
         System.out.println("============================LOOK ABOVE===========================================");
 
-        System.out.println(orderServiceForReading.getNonDetOrdersThatContainTheProduct( 2));
+        System.out.println(orderServiceForReading.getOrdersThatContainTheProduct( 2));
 
         System.out.println("=======================================================================");
         System.out.println("Contain product_id=2");
         System.out.println("=======================================================================");
-        System.out.println(orderServiceForReading.getNonDetOrdersThatDoNotContainTheProductAndContainCurDate( 2));
+        System.out.println(orderServiceForReading.getOrdersThatDoNotContainTheProductAndContainCurDate( 2));
         System.out.println("=======================================================================");
         System.out.println("now printing all today's records");
         System.out.println("=======================================================================");

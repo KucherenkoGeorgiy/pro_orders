@@ -2,7 +2,6 @@ package com.hillel.orders.entity;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 public class Order {
     private int ID;

@@ -14,32 +14,22 @@ public class Modifier {
 
         if (!recordsOfOrder.isEmpty()) {
             Connection connection = ConnectionProvider.provideConnection();
-
             if (connection != null) {
-                try (Statement statement =
-                             connection.createStatement()) {
-
+                try (Statement statement = connection.createStatement()) {
                     String sqlQuery = "INSERT INTO `schema_orders`.`orders` (`date`) VALUES (CURRENT_DATE());";
                     int i = statement.executeUpdate(sqlQuery);
-
                     ResultSet resultSet = statement.executeQuery("SELECT * FROM schema_orders.orders ORDER BY id DESC LIMIT 1;");
                     resultSet.next();
                     order_id = resultSet.getInt("id");
-
-                    System.out.println("new record was made");
-
                     for (RecordsOfOrder ofOrder : recordsOfOrder) {
                         sqlQuery = "INSERT INTO `schema_orders`.`order_product` (`order_id`, `product_id`, `quantity`) VALUES ('"
                                 + order_id + "', '" + ofOrder.getProduct()
                                 + "', '" + ofOrder.getQuantityOfProduct() + "');";
                         int i1 = statement.executeUpdate(sqlQuery);
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
-
                 } finally {
-//                    closeConnection(connection);
                     connection.close();
                 }
             }
@@ -50,10 +40,7 @@ public class Modifier {
         Connection connection = ConnectionProvider.provideConnection();
 
         if (connection != null) {
-
-            try (Statement statement =
-                         connection.createStatement()) {
-
+            try (Statement statement = connection.createStatement()) {
                 for (Order order : orders) {
                     List<RecordsOfOrder> recordsOfOrder = order.getRecordsOfOrder();
                     int orderID = order.getID();
@@ -65,28 +52,23 @@ public class Modifier {
                     }
                     String sqlDeleteOrder = "DELETE FROM `schema_orders`.`orders` WHERE (`id` = '" + orderID + "');";
                     int i2 = statement.executeUpdate(sqlDeleteOrder);
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
 
             } finally {
-                    closeConnection(connection);
-//                connection.close();
+                closeConnection(connection);
             }
         }
-
-
-
     }
-public void closeConnection (Connection connection){
-    if (connection != null) {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            System.err.println("cannot close connection");
+
+    public void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.err.println("cannot close connection");
+            }
         }
     }
-
-}
 }

@@ -8,13 +8,12 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionProvider {
-    public static Connection provideConnection() {
 
+    public static Connection provideConnection() {
         Properties properties = new Properties();
 
         try (FileInputStream inStream = new FileInputStream("src\\main\\resources\\db.properties")) {
             properties.load(inStream);
-
         } catch (IOException e) {
             System.err.println("cannot read properties");
             return null;
@@ -26,6 +25,5 @@ public class ConnectionProvider {
             System.err.println("cannot get connection");
             return null;
         }
-
     }
 }

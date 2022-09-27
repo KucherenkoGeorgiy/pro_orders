@@ -14,26 +14,22 @@ import java.util.Map;
 
 public class OrderServiceForEditing {
 
-    ProductRepository productRepository;
     OrdersRepository ordersRepository;
     RecordsOfOrderRepository recordsOfOrderRepository;
     Modifier modifier;
 
 
     public OrderServiceForEditing() {
-        productRepository = new ProductRepository();
         ordersRepository = new OrdersRepository();
         recordsOfOrderRepository = new RecordsOfOrderRepository();
         modifier = new Modifier();
     }
 
     public List<RecordsOfOrder> getAllRecordsFromCurDate() {
-
         return recordsOfOrderRepository.getAllRecordsFromCurDate();
     }
 
     public void addNewOrderWithCurDate () throws SQLException {
-//        Modifier modifier = new Modifier();
         modifier.createNewOrder(getAllRecordsFromCurDate());
     }
 
@@ -41,8 +37,8 @@ public class OrderServiceForEditing {
         List<Order> orders = ordersRepository.getNonDetOrdersByProductIDAndQuantity(productID, quantityOfProduct);
 
         if (!orders.isEmpty()){
-            orders.stream()
-                    .forEach(Order -> Order.setRecordsOfOrder(recordsOfOrderRepository.getRecordsOfOrderByOrderID(Order.getID())));
+            orders.forEach(Order ->
+                    Order.setRecordsOfOrder(recordsOfOrderRepository.getRecordsOfOrderByOrderID(Order.getID())));
             modifier.deleteAllOrders(orders);
         }
     }

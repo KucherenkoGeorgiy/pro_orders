@@ -6,6 +6,6 @@ import java.sql.SQLException;
 @FunctionalInterface
 public interface EntityExtractor<T> {
 
-    T extract (ResultSet rs) throws SQLException;
+    T extract(ResultSet rs) throws SQLException;
 
 }
