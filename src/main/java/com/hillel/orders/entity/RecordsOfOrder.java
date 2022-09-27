@@ -16,4 +16,14 @@ public class RecordsOfOrder {
                 ", quantityOfProduct=" + quantityOfProduct +
                 '}' + "\n";
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public int getQuantityOfProduct() {
+        return quantityOfProduct;
+    }
+
+
 }

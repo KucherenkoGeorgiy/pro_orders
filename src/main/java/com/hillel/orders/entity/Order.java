@@ -22,6 +22,10 @@ public class Order {
         return ID;
     }
 
+    public List<RecordsOfOrder> getRecordsOfOrder() {
+        return recordsOfOrder;
+    }
+
     @Override
     public String toString() {
         return "Order{" +

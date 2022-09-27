@@ -4,6 +4,10 @@ import com.hillel.orders.service.OrderServiceForEditing;
 import com.hillel.orders.service.OrderServiceForReading;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Hello world!
@@ -16,6 +20,7 @@ public class App
 
         OrderServiceForReading orderServiceForReading = new OrderServiceForReading();
         OrderServiceForEditing orderServiceForEditing = new OrderServiceForEditing();
+        /*
 //
 //        System.out.println(orderServiceForReading.getAllProductsFromDB());
 //        System.out.println();
@@ -29,12 +34,12 @@ public class App
         System.out.println("=======================================================================");
 //        System.out.println(orderServiceForReading.getOrderById(1));
         System.out.println(orderServiceForReading.getByTotMaxAndQuantityOfDifGoods(100, 2));
-        System.out.println("=======================================================================");
+        System.out.println("============================LOOK ABOVE===========================================");
 
         System.out.println(orderServiceForReading.getNonDetOrdersThatContainTheProduct( 2));
 
         System.out.println("=======================================================================");
-        System.out.println("Don't contain product_id=2");
+        System.out.println("Contain product_id=2");
         System.out.println("=======================================================================");
         System.out.println(orderServiceForReading.getNonDetOrdersThatDoNotContainTheProductAndContainCurDate( 2));
         System.out.println("=======================================================================");
@@ -44,6 +49,29 @@ public class App
 //        System.out.println(orderServiceForEditing.getAllRecordsFromCurDate());
 
         orderServiceForEditing.addNewOrderWithCurDate();
-        System.out.println("everything is OK");
+        System.out.println("everything is OK");*/
+        System.out.println("trying to delete product=1 quantity=1");
+        orderServiceForEditing.deleteOrdersThatContainTheProductWithQuantity(1, 1);
+        System.out.println("deleted!");
+//
+//        List<String> peopleGreetings = Stream.of("Elena", "John", "Alex", "Jim", "Sara")
+//                .peek(x -> System.out.println("Hello " + x + " !!!"))
+//                .collect(Collectors.toList());
+//
+//        System.out.println("==============");
+//        System.out.println(peopleGreetings);
+
+//        ArrayList<String> nameList = new ArrayList<>();
+//        nameList.add("Elena");
+//        nameList.add("John");
+//        nameList.add("Alex");
+//        nameList.add("Jim");
+//        nameList.add("Sara");
+//
+//        Stream.generate(() -> {
+//            int value = (int) (Math.random() * nameList.size());
+//            return nameList.get(value);
+//        }).limit(5).forEach(System.out::println);
+
     }
 }

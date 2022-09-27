@@ -1,6 +1,7 @@
 package com.hillel.orders.repository;
 
 import com.hillel.orders.connection.ConnectionProvider;
+import com.hillel.orders.entity.Order;
 import com.hillel.orders.entity.Product;
 
 import java.sql.Connection;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductRepository extends BaseRepository {
+public class ProductRepository extends BaseRepository<Product> {
 
 
 //    public List<Product> getAllProductsFromDB(){

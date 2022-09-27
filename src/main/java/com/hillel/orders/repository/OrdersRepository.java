@@ -2,12 +2,41 @@ package com.hillel.orders.repository;
 
 import com.hillel.orders.connection.ConnectionProvider;
 import com.hillel.orders.entity.Order;
+import com.hillel.orders.util.EntityExtractor;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersRepository extends BaseRepository {
+public class OrdersRepository extends BaseRepository<Order> {
+    private static final String SQL_LIST_OF_CONTAINING_PRODUCT ="""
+                                    select order_id, date from schema_orders.order_product op
+                                    join product p on op.product_ID=p.id
+                                    join orders o on op.order_id=o.id
+                                    where product_id=?;""";
+    private static final String SQL_LIST_OF_DO_NOT_CONTAIN_PROD = """
+                                    SELECT *
+                                    FROM orders
+                                    WHERE not EXISTS
+                                        (SELECT *
+                                        FROM order_product
+                                        where orders.id = order_product.order_id and order_product.product_id = ?)
+                                    and date=CURDATE();""";
+    private static final String SQL_FIND_BY_ORDER_ID = "SELECT * FROM schema_orders.orders where id=?;";
+    private static final String SQL_LIST_OF_FILTER_TOTAL_AND_QUANTITY = """
+                                 select order_id, date from schema_orders.order_product op
+                                 join product p on op.product_ID=p.id
+                                 join orders o on op.order_id=o.id
+                                 Group by order_id
+                                 having SUM(quantity*price)<? and count(product_id)=?
+                                 order by order_id;""";
+    private static final String SQL_LIST_OF_FILTER_PRODUCT_AND_QUANTITY = """
+            SELECT name, describing, price, date, quantity, order_id, product_id
+            FROM schema_orders.order_product op
+            JOIN product p ON op.product_ID=p.id
+            JOIN orders o ON op.order_id=o.id where product_id=? and quantity=?
+            order by order_id;""";
+
 
 
 //    public List<Order> getAllOrdersFromDB() {
@@ -81,7 +110,11 @@ public class OrdersRepository extends BaseRepository {
 //    }
 
     public Order getNonDetailedOrderByOrderID(int orderID) {
+        return getListByID(orderID, SQL_FIND_BY_ORDER_ID,
+                resultSet -> new Order(resultSet.getInt("id"), resultSet.getDate("date"))).get(0);
 
+
+/*
         Connection connection = ConnectionProvider.provideConnection();
 
         if (connection != null) {
@@ -104,22 +137,26 @@ public class OrdersRepository extends BaseRepository {
             } finally {
                 closeConnection(connection);
             }
-        }
-        return null;
+        }*/
     }
 
     public List<Order> getNonDetOrdersByMaxTotalAndQuantityOfDifferentGoods(int maxTotal, int quantityOfDifferentGoods) {
+        return getListByIDWithTwoParams(maxTotal, quantityOfDifferentGoods, SQL_LIST_OF_FILTER_TOTAL_AND_QUANTITY,
+                resultSet -> new Order(resultSet.getInt("order_id"), resultSet.getDate("date")));
 
+
+        /*
         Connection connection = ConnectionProvider.provideConnection();
 
         if (connection != null) {
             try (PreparedStatement statement =
-                         connection.prepareStatement("select order_id, date from schema_orders.order_product op\n" +
-                                 "join product p on op.product_ID=p.id\n" +
-                                 "join orders o on op.order_id=o.id\n" +
-                                 "Group by order_id\n" +
-                                 "having SUM(quantity*price)<? and count(product_id)=? \n" +
-                                 "order by order_id;")) {
+                         connection.prepareStatement("""
+                                 select order_id, date from schema_orders.order_product op
+                                 join product p on op.product_ID=p.id
+                                 join orders o on op.order_id=o.id
+                                 Group by order_id
+                                 having SUM(quantity*price)<? and count(product_id)=?
+                                 order by order_id;""")) {
 
                 statement.setInt(1, maxTotal);
                 statement.setInt(2, quantityOfDifferentGoods);
@@ -138,13 +175,22 @@ public class OrdersRepository extends BaseRepository {
                 closeConnection(connection);
             }
         }
-        return null;
+        return null;*/
     }
 
+    public List<Order> getNonDetOrdersByProductIDAndQuantity(int productID, int quantityOfGoods) {
+        return getListByIDWithTwoParams(productID, quantityOfGoods, SQL_LIST_OF_FILTER_PRODUCT_AND_QUANTITY,
+                resultSet -> new Order(resultSet.getInt("order_id"), resultSet.getDate("date")));
 
-    public List<Order> getNonDetOrdersThatContainTheProduct(int productID) {
+    }
 
-        Connection connection = ConnectionProvider.provideConnection();
+        public List<Order> getNonDetOrdersThatContainTheProduct(int productID) {
+
+        return getListByID(productID, SQL_LIST_OF_CONTAINING_PRODUCT,
+                resultSet -> new Order(resultSet.getInt("order_id"), resultSet.getDate("date")));
+    }
+
+        /*Connection connection = ConnectionProvider.provideConnection();
 
         if (connection != null) {
             try (PreparedStatement statement =
@@ -169,13 +215,19 @@ public class OrdersRepository extends BaseRepository {
                 closeConnection(connection);
             }
         }
-        return null;
-    }
+        return null;*/
+
+//        return List.of();
+//    }
 
     public List<Order> getNonDetOrdersThatDoNotContainTheProductAndContainCurDate(int productID) {
 
-        Connection connection = ConnectionProvider.provideConnection();
 
+
+        return getListByID(productID, SQL_LIST_OF_DO_NOT_CONTAIN_PROD,
+                resultSet -> new Order(resultSet.getInt("id"), resultSet.getDate("date")));
+    }
+     /*
         if (connection != null) {
             try (PreparedStatement statement =
                          connection.prepareStatement("SELECT *\n" +
@@ -203,6 +255,6 @@ public class OrdersRepository extends BaseRepository {
         }
         return null;
     }
-
+*/
 }
 

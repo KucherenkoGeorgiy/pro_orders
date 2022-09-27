@@ -14,7 +14,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecordsOfOrderRepository extends BaseRepository {
+public class RecordsOfOrderRepository extends BaseRepository<RecordsOfOrder> {
+    private static final String SQL_LIST_SELECT_RECORDS_BY_ORDER_ID = """
+                                    SELECT product_id, name, describing, price, quantity
+                                    FROM schema_orders.order_product op
+                                    JOIN product p ON op.product_ID=p.id and order_id=?
+                                    JOIN orders o ON op.order_id=o.id order by order_id;""";
+    private static final String SQL_LIST_SELECT_RECORDS_FROM_TODAY = """
+            SELECT sum(quantity), product_id FROM schema_orders.order_product op
+            JOIN product p ON op.product_ID=p.id
+            JOIN orders o ON op.order_id=o.id
+            where date=curdate()
+            group by product_id;""";
+
 
 //    public List<RecordsOfOrder> getAllDetailedOrdersFromDB() {
 //
@@ -50,7 +62,17 @@ public class RecordsOfOrderRepository extends BaseRepository {
 //
 //    }
 
-    public List<RecordsOfOrder> getRecordsOfOrderByOrderID(int orderID) {
+    public List<RecordsOfOrder> getRecordsOfOrderByOrderID (int orderID) {
+        return getListByID(orderID, SQL_LIST_SELECT_RECORDS_BY_ORDER_ID,
+                resultSet -> new RecordsOfOrder(new Product(resultSet.getInt("product_id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("describing"),
+                        resultSet.getInt("price")), resultSet.getInt("quantity")));
+
+//        return List.of();
+    }
+    /*
+    public List<RecordsOfOrder> getRecordsOfOrderByOrderID2 (int orderID) {
 
 
         Connection connection = ConnectionProvider.provideConnection();
@@ -82,8 +104,20 @@ public class RecordsOfOrderRepository extends BaseRepository {
 
 
     }
+*/
 
-    public Map<Integer, Integer> getAllRecordsFromCurDate() {
+    public List<RecordsOfOrder> getAllRecordsFromCurDate() {
+        return getListWithoutID(SQL_LIST_SELECT_RECORDS_FROM_TODAY,
+                resultSet -> new RecordsOfOrder(new Product(resultSet.getInt("product_id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("describing"),
+                        resultSet.getInt("price")), resultSet.getInt("quantity")));
+
+
+    }
+
+
+    public Map<Integer, Integer> getAllRecordsFromCurDate2() {
 
 
         Connection connection = ConnectionProvider.provideConnection();
