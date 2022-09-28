@@ -1,0 +1,201 @@
+Index: src/main/resources/MyDump.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>CREATE DATABASE  IF NOT EXISTS `schema_orders`;\r\nUSE `schema_orders`;\r\n\r\nDROP TABLE IF EXISTS `order_product`;\r\n\r\nCREATE TABLE `order_product` (\r\n  `order_id` int NOT NULL AUTO_INCREMENT,\r\n  `product_id` int NOT NULL,\r\n  `quantity` int NOT NULL DEFAULT '1',\r\n  PRIMARY KEY (`order_id`,`product_id`),\r\n  KEY `product_id_idx` (`product_id`),\r\n  CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),\r\n  CONSTRAINT `product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)\r\n) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;\r\n\r\nLOCK TABLES `order_product` WRITE;\r\nINSERT INTO `order_product` VALUES (1,1,2),(1,2,2),(1,3,2),(1,4,2),(3,3,1),(4,2,2),(6,4,2),(9,1,2),(9,4,2),(11,1,4),(11,4,4),(12,1,8),(12,4,8),(13,1,16),(13,4,16),(20,1,2),(21,1,100),(22,2,100),(24,1,100),(24,2,100),(25,1,200),(25,2,200),(29,1,2),(30,2,3),(31,3,1),(32,4,5),(33,3,6),(34,2,1),(35,1,2);\r\nUNLOCK TABLES;\r\n\r\nDROP TABLE IF EXISTS `orders`;\r\n\r\nCREATE TABLE `orders` (\r\n  `id` int NOT NULL AUTO_INCREMENT,\r\n  `date` date NOT NULL,\r\n  PRIMARY KEY (`id`),\r\n  UNIQUE KEY `id_UNIQUE` (`id`)\r\n) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;\r\n\r\nLOCK TABLES `orders` WRITE;\r\nINSERT INTO `orders` VALUES (1,'2022-09-16'),(3,'2022-09-17'),(4,'2022-08-30'),(6,'2022-09-23'),(9,'2022-09-23'),(10,'2022-09-23'),(11,'2022-09-23'),(12,'2022-09-23'),(13,'2022-09-23'),(14,'2022-09-24'),(20,'2022-09-27'),(21,'2022-09-28'),(22,'2022-09-28'),(24,'2022-09-28'),(25,'2022-09-28'),(29,'2022-09-29'),(30,'2022-09-30'),(31,'2022-10-01'),(32,'2022-10-02'),(33,'2022-10-03'),(34,'2022-10-04'),(35,'2022-10-05');\r\nUNLOCK TABLES;\r\n\r\nDROP TABLE IF EXISTS `product`;\r\n\r\nCREATE TABLE `product` (\r\n  `id` int NOT NULL AUTO_INCREMENT,\r\n  `name` varchar(255) NOT NULL,\r\n  `describing` varchar(255) NOT NULL,\r\n  `price` int NOT NULL,\r\n  PRIMARY KEY (`id`),\r\n  UNIQUE KEY `id_UNIQUE` (`id`),\r\n  UNIQUE KEY `product_name_UNIQUE` (`name`)\r\n) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;\r\n\r\nLOCK TABLES `product` WRITE;\r\nINSERT INTO `product` VALUES (1,'Cola','cold drink Coca-Cola',2),(2,'Fanta','cold drink Fanta',3),(3,'Sprite','cold drink Sprite',4),(4,'Vodka','Absolute',9);\r\nUNLOCK TABLES;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/MyDump.sql b/src/main/resources/MyDump.sql
+--- a/src/main/resources/MyDump.sql	
++++ b/src/main/resources/MyDump.sql	
+@@ -11,27 +11,25 @@
+   KEY `product_id_idx` (`product_id`),
+   CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+   CONSTRAINT `product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
++) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+ 
+ LOCK TABLES `order_product` WRITE;
+-INSERT INTO `order_product` VALUES (1,1,2),(1,2,2),(1,3,2),(1,4,2),(3,3,1),(4,2,2),(6,4,2),(9,1,2),(9,4,2),(11,1,4),(11,4,4),(12,1,8),(12,4,8),(13,1,16),(13,4,16),(20,1,2),(21,1,100),(22,2,100),(24,1,100),(24,2,100),(25,1,200),(25,2,200),(29,1,2),(30,2,3),(31,3,1),(32,4,5),(33,3,6),(34,2,1),(35,1,2);
++INSERT INTO `order_product` VALUES (1,1,2),(1,2,2),(1,3,2),(1,4,2),(3,3,1),(4,2,2),(6,4,2),(9,1,2),(9,4,2),(11,1,4),(11,4,4),(12,1,8),(12,4,8),(13,1,16),(13,4,16),(20,1,2),(21,2,100),(22,2,100),(24,2,100),(25,2,200),(29,1,2),(30,2,3),(31,1,1),(32,4,5),(33,2,6),(34,2,1),(35,1,2),(39,2,500),(40,2,1000),(41,2,2000);
+ UNLOCK TABLES;
+ 
+ DROP TABLE IF EXISTS `orders`;
+-
+ CREATE TABLE `orders` (
+   `id` int NOT NULL AUTO_INCREMENT,
+   `date` date NOT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `id_UNIQUE` (`id`)
+-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
++) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+ 
+ LOCK TABLES `orders` WRITE;
+-INSERT INTO `orders` VALUES (1,'2022-09-16'),(3,'2022-09-17'),(4,'2022-08-30'),(6,'2022-09-23'),(9,'2022-09-23'),(10,'2022-09-23'),(11,'2022-09-23'),(12,'2022-09-23'),(13,'2022-09-23'),(14,'2022-09-24'),(20,'2022-09-27'),(21,'2022-09-28'),(22,'2022-09-28'),(24,'2022-09-28'),(25,'2022-09-28'),(29,'2022-09-29'),(30,'2022-09-30'),(31,'2022-10-01'),(32,'2022-10-02'),(33,'2022-10-03'),(34,'2022-10-04'),(35,'2022-10-05');
++INSERT INTO `orders` VALUES (1,'2022-09-16'),(3,'2022-09-17'),(4,'2022-08-30'),(6,'2022-09-23'),(9,'2022-09-23'),(10,'2022-09-23'),(11,'2022-09-23'),(12,'2022-09-23'),(13,'2022-09-23'),(14,'2022-09-24'),(20,'2022-09-27'),(21,'2022-09-28'),(22,'2022-09-28'),(24,'2022-09-28'),(25,'2022-09-28'),(29,'2022-09-29'),(30,'2022-09-30'),(31,'2022-10-01'),(32,'2022-10-02'),(33,'2022-10-03'),(34,'2022-10-04'),(35,'2022-10-05'),(39,'2022-09-28'),(40,'2022-09-28'),(41,'2022-09-28');
+ UNLOCK TABLES;
+ 
+ DROP TABLE IF EXISTS `product`;
+-
+ CREATE TABLE `product` (
+   `id` int NOT NULL AUTO_INCREMENT,
+   `name` varchar(255) NOT NULL,
+@@ -44,4 +42,4 @@
+ 
+ LOCK TABLES `product` WRITE;
+ INSERT INTO `product` VALUES (1,'Cola','cold drink Coca-Cola',2),(2,'Fanta','cold drink Fanta',3),(3,'Sprite','cold drink Sprite',4),(4,'Vodka','Absolute',9);
+-UNLOCK TABLES;
++UNLOCK TABLES;
+\ No newline at end of file
+Index: .idea/uiDesigner.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/uiDesigner.xml b/.idea/uiDesigner.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/uiDesigner.xml	
+@@ -0,0 +1,124 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Palette2">
++    <group name="Swing">
++      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
++      </item>
++      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.svg" removable="false" auto-create-binding="false" can-attach-label="true">
++        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
++        <initial-values>
++          <property name="text" value="Button" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="RadioButton" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="CheckBox" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="Label" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
++          <preferred-size width="-1" height="20" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
++      </item>
++    </group>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/vcs.xml	
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
