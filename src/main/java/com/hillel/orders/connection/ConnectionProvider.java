@@ -26,6 +26,4 @@ public class ConnectionProvider {
             return null;
         }
     }
-
-
 }
