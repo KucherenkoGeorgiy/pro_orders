@@ -23,8 +23,8 @@ public class App {
         System.out.println(orderServiceForReading.getOrdersThatContainTheProduct(3));
         System.out.println(SEPARATOR + " above you can see orders that contain product with product_id = 3" + SEPARATOR);
 
-        System.out.println(orderServiceForReading.getOrdersThatDoNotContainTheProductAndContainCurDate(2));
-        System.out.println(SEPARATOR + " above you can see orders that don't contain product_ID=2 and were made today" + SEPARATOR);
+        System.out.println(orderServiceForReading.getOrdersThatDoNotContainTheProductAndContainCurDate(3));
+        System.out.println(SEPARATOR + " above you can see orders that don't contain product_ID=3 and were made today" + SEPARATOR);
 
         orderServiceForEditing.addNewOrderWithCurDate();
 

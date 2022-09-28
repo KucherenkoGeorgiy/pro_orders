@@ -4,12 +4,12 @@ import java.sql.Date;
 import java.util.List;
 
 public class Order {
-    private int ID;
+    private int id;
     private Date date;
     private List<RecordsOfOrder> recordsOfOrder;
 
-    public Order(int ID, Date date) {
-        this.ID = ID;
+    public Order(int id, Date date) {
+        this.id = id;
         this.date = date;
     }
 
@@ -17,8 +17,8 @@ public class Order {
         this.recordsOfOrder = recordsOfOrder;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
     public List<RecordsOfOrder> getRecordsOfOrder() {
@@ -28,7 +28,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "ID=" + ID +
+                "id=" + id +
                 ", date=" + date +
                 ", recordsOfOrder=\n" + recordsOfOrder +
                 '}';

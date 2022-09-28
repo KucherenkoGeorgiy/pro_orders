@@ -35,7 +35,7 @@ public class Modifier {
                     for (RecordsOfOrder ofOrder : recordsOfOrder) {
                         statement.executeUpdate(String
                                 .format(SQL_PATTERN_CREATE_NEW_RECORDS_OF_ORDER,
-                                        order_id, ofOrder.getProduct().getID(), ofOrder.getQuantityOfProduct()));
+                                        order_id, ofOrder.getProduct().getId(), ofOrder.getQuantityOfProduct()));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -53,10 +53,10 @@ public class Modifier {
             try (Statement statement = connection.createStatement()) {
                 for (Order order : orders) {
                     List<RecordsOfOrder> recordsOfOrder = order.getRecordsOfOrder();
-                    int orderID = order.getID();
+                    int orderID = order.getId();
 
                     for (RecordsOfOrder recordOfOrder : recordsOfOrder) {
-                        int productID = recordOfOrder.getProduct().getID();
+                        int productID = recordOfOrder.getProduct().getId();
                         statement.executeUpdate(String
                                 .format(SQL_PATTERN_DELETE_RECORD_OF_ORDER, orderID, productID));
                     }

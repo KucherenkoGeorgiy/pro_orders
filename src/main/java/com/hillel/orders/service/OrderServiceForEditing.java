@@ -33,7 +33,7 @@ public class OrderServiceForEditing {
 
         if (!orders.isEmpty()) {
             orders.forEach(Order ->
-                    Order.setRecordsOfOrder(recordsOfOrderRepository.getRecordsOfOrderByOrderID(Order.getID())));
+                    Order.setRecordsOfOrder(recordsOfOrderRepository.getRecordsOfOrderByOrderID(Order.getId())));
             modifier.deleteAllOrders(orders);
         }
     }

@@ -27,19 +27,19 @@ public class OrderServiceForReading {
     public List<Order> getByTotMaxAndQuantityOfDifGoods(int totalAmount, int quantityOfDifferentGoods) {
         List<Order> result = ordersRepository
                 .getNonDetOrdersByMaxTotalAndQuantityOfDifferentGoods(totalAmount, quantityOfDifferentGoods);
-        result.forEach(Order -> Order.setRecordsOfOrder(recordsOfOrderRepository.getRecordsOfOrderByOrderID(Order.getID())));
+        result.forEach(Order -> Order.setRecordsOfOrder(recordsOfOrderRepository.getRecordsOfOrderByOrderID(Order.getId())));
         return result;
     }
 
     public List<Order> getOrdersThatContainTheProduct(int productID) {
         List<Order> result = ordersRepository.getNonDetOrdersThatContainTheProduct(productID);
-        result.forEach(Order -> Order.setRecordsOfOrder(recordsOfOrderRepository.getRecordsOfOrderByOrderID(Order.getID())));
+        result.forEach(Order -> Order.setRecordsOfOrder(recordsOfOrderRepository.getRecordsOfOrderByOrderID(Order.getId())));
         return result;
     }
 
     public List<Order> getOrdersThatDoNotContainTheProductAndContainCurDate(int productID) {
         List<Order> result = ordersRepository.getNonDetOrdersThatDoNotContainTheProductAndContainCurDate(productID);
-        result.forEach(Order -> Order.setRecordsOfOrder(recordsOfOrderRepository.getRecordsOfOrderByOrderID(Order.getID())));
+        result.forEach(Order -> Order.setRecordsOfOrder(recordsOfOrderRepository.getRecordsOfOrderByOrderID(Order.getId())));
         return result;
     }
 }
