@@ -9,28 +9,38 @@ import java.util.List;
 
 public class Modifier {
 
-    public void createNewOrder(List<RecordsOfOrder> recordsOfOrder) throws SQLException {
-        int order_id;
+    public static String SQL_PATTERN_DELETE_RECORD_OF_ORDER = """
+            DELETE FROM `schema_orders`.`order_product`
+            WHERE (`order_id` = '%d') and (`product_id` = '%d');""";
+    public static String SQL_PATTERN_DELETE_ORDER = "DELETE FROM `schema_orders`.`orders` WHERE (`id` = '%d');";
+    public static String SQL_CREATE_NEW_ORDER_WITH_CUR_DATE = """
+            INSERT INTO `schema_orders`.`orders` (`date`) VALUES (CURRENT_DATE());""";
+    public static String SQL_PATTERN_CREATE_NEW_RECORDS_OF_ORDER = """
+            INSERT INTO `schema_orders`.`order_product`
+            (`order_id`, `product_id`, `quantity`)
+            VALUES ('%d', '%d', '%d');""";
+    public static String SQL_GET_NUMBER_OF_LAST_ORDER = "SELECT * FROM schema_orders.orders ORDER BY id DESC LIMIT 1;";
 
+
+    public void createNewOrder(List<RecordsOfOrder> recordsOfOrder) {
         if (!recordsOfOrder.isEmpty()) {
             Connection connection = ConnectionProvider.provideConnection();
             if (connection != null) {
                 try (Statement statement = connection.createStatement()) {
-                    String sqlQuery = "INSERT INTO `schema_orders`.`orders` (`date`) VALUES (CURRENT_DATE());";
-                    int i = statement.executeUpdate(sqlQuery);
-                    ResultSet resultSet = statement.executeQuery("SELECT * FROM schema_orders.orders ORDER BY id DESC LIMIT 1;");
+                    int order_id;
+                    statement.executeUpdate(SQL_CREATE_NEW_ORDER_WITH_CUR_DATE);
+                    ResultSet resultSet = statement.executeQuery(SQL_GET_NUMBER_OF_LAST_ORDER);
                     resultSet.next();
                     order_id = resultSet.getInt("id");
                     for (RecordsOfOrder ofOrder : recordsOfOrder) {
-                        sqlQuery = "INSERT INTO `schema_orders`.`order_product` (`order_id`, `product_id`, `quantity`) VALUES ('"
-                                + order_id + "', '" + ofOrder.getProduct()
-                                + "', '" + ofOrder.getQuantityOfProduct() + "');";
-                        int i1 = statement.executeUpdate(sqlQuery);
+                        statement.executeUpdate(String
+                                .format(SQL_PATTERN_CREATE_NEW_RECORDS_OF_ORDER,
+                                        order_id, ofOrder.getProduct().getID(), ofOrder.getQuantityOfProduct()));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    connection.close();
+                    closeConnection(connection);
                 }
             }
         }
@@ -44,14 +54,13 @@ public class Modifier {
                 for (Order order : orders) {
                     List<RecordsOfOrder> recordsOfOrder = order.getRecordsOfOrder();
                     int orderID = order.getID();
+
                     for (RecordsOfOrder recordOfOrder : recordsOfOrder) {
                         int productID = recordOfOrder.getProduct().getID();
-                        String sqlString = "DELETE FROM `schema_orders`.`order_product` WHERE (`order_id` = '"
-                                + orderID + "') and (`product_id` = '" + productID + "');";
-                        int i1 = statement.executeUpdate(sqlString);
+                        statement.executeUpdate(String
+                                .format(SQL_PATTERN_DELETE_RECORD_OF_ORDER, orderID, productID));
                     }
-                    String sqlDeleteOrder = "DELETE FROM `schema_orders`.`orders` WHERE (`id` = '" + orderID + "');";
-                    int i2 = statement.executeUpdate(sqlDeleteOrder);
+                    statement.executeUpdate(String.format(SQL_PATTERN_DELETE_ORDER, orderID));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -24,6 +24,4 @@ public class RecordsOfOrder {
     public int getQuantityOfProduct() {
         return quantityOfProduct;
     }
-
-
 }

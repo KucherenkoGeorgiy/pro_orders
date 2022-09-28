@@ -13,7 +13,8 @@ public class RecordsOfOrderRepository extends BaseRepository<RecordsOfOrder> {
             JOIN product p ON op.product_ID=p.id and order_id=?
             JOIN orders o ON op.order_id=o.id order by order_id;""";
     private static final String SQL_LIST_SELECT_RECORDS_FROM_TODAY = """
-            SELECT sum(quantity), product_id FROM schema_orders.order_product op
+            SELECT sum(quantity), product_id, name, describing, price
+            FROM schema_orders.order_product op
             JOIN product p ON op.product_ID=p.id
             JOIN orders o ON op.order_id=o.id
             where date=curdate()
@@ -33,6 +34,6 @@ public class RecordsOfOrderRepository extends BaseRepository<RecordsOfOrder> {
                 resultSet -> new RecordsOfOrder(new Product(resultSet.getInt("product_id"),
                         resultSet.getString("name"),
                         resultSet.getString("describing"),
-                        resultSet.getInt("price")), resultSet.getInt("quantity")));
+                        resultSet.getInt("price")), resultSet.getInt("sum(quantity)")));
     }
 }
