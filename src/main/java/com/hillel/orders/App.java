@@ -15,7 +15,7 @@ public class App {
         System.out.println(SEPARATOR);
 
         System.out.println(orderServiceForReading.getDetailedOrderByOrderId(1));
-        System.out.println(SEPARATOR + " above you can see details of order 1" + SEPARATOR);
+        System.out.println(SEPARATOR + " above you can see details of order #1" + SEPARATOR);
 
         System.out.println(orderServiceForReading.getByTotMaxAndQuantityOfDifGoods(100, 2));
         System.out.println(SEPARATOR + " above you can see orders where TOTAL is less than 100 and quantity of different goods is 2" + SEPARATOR);
