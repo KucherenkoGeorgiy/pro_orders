@@ -3,12 +3,11 @@ package com.hillel.orders;
 import com.hillel.orders.service.OrderServiceForEditing;
 import com.hillel.orders.service.OrderServiceForReading;
 
-import java.sql.SQLException;
 
 public class App {
     private static final String SEPARATOR = "======================";
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args){
         OrderServiceForReading orderServiceForReading = new OrderServiceForReading();
         OrderServiceForEditing orderServiceForEditing = new OrderServiceForEditing();
 
